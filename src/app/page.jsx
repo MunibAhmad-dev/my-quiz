@@ -49,7 +49,6 @@
 
 
 
-import "./index.css";
 import React, { useState } from 'react';
 
 // Quiz data
@@ -57,30 +56,28 @@ const quizData = [
   {
     question: 'What is the capital of France?',
     options: ['Paris', 'London', 'Berlin', 'Rome'],
-    answer: 'Paris'
+    answer: 'Paris',
   },
   {
     question: 'Who painted the Mona Lisa?',
     options: ['Leonardo da Vinci', 'Michelangelo', 'Raphael', 'Caravaggio'],
-    answer: 'Leonardo da Vinci'
+    answer: 'Leonardo da Vinci',
   },
   {
     question: 'What is the largest planet in our solar system?',
     options: ['Earth', 'Saturn', 'Jupiter', 'Uranus'],
-    answer: 'Jupiter'
-  }
+    answer: 'Jupiter',
+  },
 ];
+
 function QuizApp() {
-  // State for current question index
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  // State for user's score
   const [score, setScore] = useState(0);
-  // State for user's answer selection
   const [selectedAnswer, setSelectedAnswer] = useState('');
+
   // Function to handle answer selection
   const handleAnswerSelect = (answer) => {
     setSelectedAnswer(answer);
-    // Check if answer is correct
     if (answer === quizData[currentQuestion].answer) {
       setScore(score + 1);
     }
@@ -92,22 +89,85 @@ function QuizApp() {
     setSelectedAnswer('');
   };
 
+  // Inline styles
+  const containerStyle = {
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+    padding: '30px',
+    maxWidth: '600px',
+    width: '100%',
+    textAlign: 'center',
+    margin: '0 auto',
+  };
+
+  const headingStyle = {
+    color: '#333',
+    fontSize: '2rem',
+    marginBottom: '20px',
+  };
+
+  const questionStyle = {
+    fontSize: '1.5rem',
+    marginBottom: '20px',
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#007BFF',
+    color: 'white',
+    border: 'none',
+    padding: '10px 20px',
+    fontSize: '1rem',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginBottom: '10px',
+    transition: 'background-color 0.3s ease',
+  };
+
+  const buttonHoverStyle = {
+    backgroundColor: '#0056b3',
+  };
+
+  const nextButtonStyle = {
+    backgroundColor: '#28a745',
+    marginTop: '20px',
+  };
+
+  const correctStyle = {
+    color: '#28a745',
+    fontWeight: 'bold',
+  };
+
+  const incorrectStyle = {
+    color: '#dc3545',
+    fontWeight: 'bold',
+  };
+
+  const listItemStyle = {
+    marginBottom: '15px',
+  };
+
   return (
-    <div className="container">
-      <h1>Quiz App</h1>
-      <p className="centerring">Question {currentQuestion + 1} of {quizData.length}</p>
-      <h2 className="question">{quizData[currentQuestion].question}</h2>
-      <ul className="ul">
+    <div style={containerStyle}>
+      <h1 style={headingStyle}>Quiz App</h1>
+      <p>Question {currentQuestion + 1} of {quizData.length}</p>
+      <h2 style={questionStyle}>{quizData[currentQuestion].question}</h2>
+      <ul style={{ listStyle: 'none', padding: 0 }}>
         {quizData[currentQuestion].options.map((option, index) => (
-          <li key={index}>
-            <button onClick={() => handleAnswerSelect(option)}>
+          <li key={index} style={listItemStyle}>
+            <button
+              onClick={() => handleAnswerSelect(option)}
+              style={buttonStyle}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+            >
               {option}
             </button>
           </li>
         ))}
       </ul>
       {selectedAnswer && (
-        <p>
+        <p style={selectedAnswer === quizData[currentQuestion].answer ? correctStyle : incorrectStyle}>
           {selectedAnswer === quizData[currentQuestion].answer ? (
             <span>Correct!</span>
           ) : (
@@ -116,19 +176,20 @@ function QuizApp() {
         </p>
       )}
       {currentQuestion < quizData.length - 1 ? (
-        <button className="landibutton" onClick={handleNextQuestion}>Next Question</button>
+        <button
+          style={{ ...buttonStyle, ...nextButtonStyle }}
+          onClick={handleNextQuestion}
+        >
+          Next Question
+        </button>
       ) : (
-        <p>
-          Quiz complete! Your score is {score} out of {quizData.length}.
-        </p>
+        <p>Quiz complete! Your score is {score} out of {quizData.length}.</p>
       )}
     </div>
   );
 }
 
 export default QuizApp;
-
-
 
 
 //,----------------------------------------------------->
